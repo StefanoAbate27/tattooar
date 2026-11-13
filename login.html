@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <title>TattooAR — Tu estudio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@800&family=Inter+Tight:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>
+    (function(){try{var t=localStorage.getItem('ta:theme')||'dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/brand.css?v=3" />
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <script src="js/brand-logo.js?v=3"></script>
+</head>
+<body class="app auth-page">
+  <a class="scan-home" href="index.html" aria-label="Tattoo AR — volver al inicio"><span class="tal-dark" data-ta-logo="horizontal" data-glitch="off" aria-hidden="true"></span></a>
+  <div class="auth-ghost" aria-hidden="true"><span data-ta-logo="word" data-glitch="off"></span></div>
+
+  <main class="auth-wrap">
+    <div class="auth-card"><i class="tar-vf" aria-hidden="true"></i>
+      <p class="auth-kicker tar-label"><span>AR_</span> Estudio<i class="tar-cursor"></i></p>
+      <h1 class="auth-title">Tu estudio</h1>
+      <p class="auth-sub" id="auth-sub">Entrá para darle vida a tus tatuajes.</p>
+
+      <div class="content-tabs auth-tabs">
+        <button class="tab active" id="tab-login">Iniciar sesión</button>
+        <button class="tab" id="tab-signup">Crear cuenta</button>
+      </div>
+
+      <form id="auth-form" autocomplete="on">
+        <div id="signup-fields" hidden>
+          <div class="field-row">
+            <label class="field"><span>Nombres</span><input type="text" id="f-first" placeholder="Ana" autocomplete="given-name" /></label>
+            <label class="field"><span>Apellidos</span><input type="text" id="f-last" placeholder="Ríos" autocomplete="family-name" /></label>
+          </div>
+          <label class="field"><span>Nombre del estudio</span><input type="text" id="f-studio" placeholder="Ink Studio" autocomplete="organization" /></label>
+          <div class="field-row">
+            <label class="field"><span>Teléfono</span>
+              <div class="phone-row"><select id="f-phone-cc" class="dial-select" aria-label="Código de país"></select><input type="tel" id="f-phone" placeholder="300 000 0000" autocomplete="tel-national" /></div>
+            </label>
+            <label class="field"><span>Ubicación</span><input type="text" id="f-location" placeholder="Bogotá, CO" autocomplete="address-level2" /></label>
+          </div>
+        </div>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="f-email" placeholder="tu@email.com" autocomplete="email" required />
+        </label>
+        <label class="field">
+          <span>Contraseña</span>
+          <input type="password" id="f-pass" placeholder="••••••••" autocomplete="current-password" required minlength="6" />
+        </label>
+        <div id="captcha" class="captcha" hidden>
+          <div class="captcha-track" id="captchaTrack">
+            <div class="captcha-fill" id="captchaFill"></div>
+            <span class="captcha-text" id="captchaText">Deslizá para verificar que sos humano</span>
+            <div class="captcha-handle" id="captchaHandle" role="button" aria-label="Deslizar para verificar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="auth-submit" style="width:100%;margin-top:.4rem">Entrar</button>
+        <div class="auth-msg" id="auth-msg"></div>
+      </form>
+
+      <p class="auth-foot"><a href="index.html">← Volver al inicio</a></p>
+    </div>
+  </main>
+
+  <!-- Saludo (aparece tras iniciar sesión, antes de ir al generador) -->
+  <div id="greet" class="greet hidden">
+    <div class="greet-inner">
+      <div id="greet-words" class="words-pre">
+        <p class="words-line"><span class="words-dot"></span><span id="words-text">Hola</span></p>
+      </div>
+      <div id="greet-flap-wrap" class="greet-flap" hidden>
+        <div class="greet-hola">HOLA</div>
+        <div id="greet-flap"></div>
+        <div class="greet-hint">Abriendo tu estudio…</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/countries.js"></script>
+  <script src="js/login.js"></script>
+  <script type="module" src="js/split-flap.js"></script>
+</body>
+</html>

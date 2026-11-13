@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <title>TattooAR — Privacidad y términos</title>
+  <meta name="description" content="Qué datos usa TattooAR, para qué, y las condiciones del servicio." />
+  <script>(function(){try{document.documentElement.setAttribute('data-theme',localStorage.getItem('ta:theme')||'dark');}catch(e){}})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@800&family=Inter+Tight:wght@400;500;600&family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/landing.css?v=3" />
+  <link rel="stylesheet" href="css/brand.css?v=3" />
+  <script src="js/brand-logo.js?v=3"></script>
+  <style>
+    .doc-top { display: flex; justify-content: space-between; align-items: center; padding: 18px var(--gut); border-bottom: 1px solid var(--line); }
+    .doc-top [data-ta-logo] { width: 128px; }
+    .doc { width: min(100% - 2 * var(--gut), 760px); margin: 0 auto; padding: clamp(3rem, 8vw, 6rem) 0 6rem; }
+    .doc h1 { font-family: var(--gothic); font-weight: 800; font-size: clamp(3rem, 10vw, 5.4rem); line-height: .9; margin: 1rem 0 1.2rem; }
+    .doc h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 3.6vw, 2.2rem); letter-spacing: -.035em; margin: 3.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid var(--line); scroll-margin-top: 1rem; }
+    .doc h3 { font-family: var(--display); font-weight: 600; font-size: 1.15rem; letter-spacing: -.02em; margin: 1.8rem 0 .5rem; }
+    .doc p, .doc li { color: var(--muted); max-width: 66ch; }
+    .doc p + p { margin-top: .8rem; }
+    .doc ul { display: grid; gap: .5rem; margin-top: .6rem; padding-left: 1.1rem; list-style: square; }
+    .doc ul li::marker { color: var(--accent-text); }
+    .doc b { color: var(--cream); font-weight: 600; }
+    .doc .tar-label { color: var(--accent-text); }
+    .doc .updated { color: var(--muted); margin-top: .4rem; }
+    .doc-nav { display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <header class="doc-top">
+    <a href="index.html" aria-label="TattooAR — inicio"><span data-ta-logo="horizontal" data-glitch="off" aria-hidden="true"></span></a>
+    <a class="link-arrow" href="index.html">Volver al inicio</a>
+  </header>
+  <main class="doc">
+    <p class="tar-label">AR_ Legal</p>
+    <h1>Privacidad y términos</h1>
+    <p class="updated tar-label">Última actualización: noviembre de 2026</p>
+    <nav class="doc-nav" aria-label="En esta página">
+      <a class="link-arrow" href="#privacidad">Privacidad</a>
+      <a class="link-arrow" href="#terminos">Términos del servicio</a>
+    </nav>
+
+    <h2 id="privacidad">Privacidad</h2>
+    <p>TattooAR es una web: no hay app que instalar. Esta sección explica qué datos usamos, para qué y con quién se procesan.</p>
+
+    <h3>Si escaneás un tatuaje</h3>
+    <ul>
+      <li><b>La cámara se procesa en tu celular.</b> La imagen de la cámara nunca se sube ni se guarda. El reconocimiento del tatuaje corre en tu navegador.</li>
+      <li><b>Contamos escaneos.</b> Cuando se reconoce un diseño sumamos 1 a su contador de vistas, sin datos tuyos asociados.</li>
+      <li><b>Las fotos que sacás quedan en tu celular.</b> Solo salen si vos las compartís.</li>
+      <li>Para que la próxima visita abra más rápido, tu navegador guarda una copia de los diseños que descargó. Podés borrarla limpiando los datos del sitio.</li>
+    </ul>
+
+    <h3>Si tenés cuenta de tatuador</h3>
+    <ul>
+      <li><b>Datos de la cuenta:</b> email, contraseña (cifrada por el proveedor de autenticación), nombre, apellido, estudio, teléfono, ubicación y foto de perfil si la cargás.</li>
+      <li><b>Diseños:</b> la imagen del tatuaje, su reconocimiento, el video o efecto y el nombre que le pongas. Los diseños publicados son accesibles por su link, para que tus clientes puedan escanearlos.</li>
+      <li><b>Uso:</b> la cantidad de escaneos de cada diseño, para mostrarte tus estadísticas.</li>
+      <li>Usamos estos datos para darte el servicio, validar tu plan y contactarte por temas de tu cuenta. No los vendemos ni los usamos para publicidad.</li>
+    </ul>
+
+    <h3>Quién procesa los datos</h3>
+    <ul>
+      <li><b>Supabase:</b> base de datos, autenticación y almacenamiento de diseños.</li>
+      <li><b>Vercel:</b> alojamiento del sitio.</li>
+      <li><b>Google Fonts, jsDelivr, cdnjs y Unsplash:</b> fuentes, librerías e imágenes de la galería. Tu navegador se conecta a ellos para descargarlas.</li>
+    </ul>
+
+    <h3>Lo que guarda tu navegador</h3>
+    <p>Guardamos en tu navegador el tema (claro u oscuro), el idioma y tu sesión si entrás como tatuador. No usamos cookies de publicidad ni de seguimiento.</p>
+
+    <h3>Tus derechos</h3>
+    <p>Podés ver y corregir los datos de tu perfil desde tu cuenta. Para pedir una copia, borrar tu cuenta o borrar un diseño publicado, contactá al equipo de TattooAR desde el email de tu cuenta y lo resolvemos.</p>
+
+    <h2 id="terminos">Términos del servicio</h2>
+    <h3>El servicio</h3>
+    <p>TattooAR permite a tatuadores subir diseños, asociarles una animación y compartir un link o QR para que sus clientes vean el tatuaje en realidad aumentada desde el navegador.</p>
+
+    <h3>Tu contenido</h3>
+    <ul>
+      <li>Solo subí diseños, videos e imágenes sobre los que tengas derechos, y con el consentimiento de la persona tatuada cuando corresponda.</li>
+      <li>Seguís siendo dueño de tu trabajo. Nos das permiso para alojarlo y mostrarlo a quien tenga el link, solo para prestar el servicio.</li>
+      <li>Podemos retirar contenido ilegal, ofensivo o que infrinja derechos de terceros.</li>
+    </ul>
+
+    <h3>Planes y pagos</h3>
+    <p>El plan Free es gratuito. Los planes pagos se activan cuando validamos tu pago y se pueden cancelar cuando quieras; la cancelación rige desde el siguiente período.</p>
+
+    <h3>Disponibilidad</h3>
+    <p>Trabajamos para que el servicio esté siempre disponible, pero puede haber cortes o cambios. El reconocimiento depende de la cámara, la luz y de que el tatuaje se parezca al diseño subido.</p>
+
+    <h3>Cambios</h3>
+    <p>Si cambiamos estos términos, actualizamos la fecha de arriba. Si el cambio es importante, te avisamos por email.</p>
+  </main>
+</body>
+</html>

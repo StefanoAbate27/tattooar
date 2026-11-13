@@ -1,0 +1,81 @@
+/* TattooAR — logo oficial (dirección P · Gótica Glitch).
+   La palabra está convertida a trazos (Grenze Gotisch 800 + Space Mono 700): no depende de fuentes web.
+   Uso:   <span data-ta-logo="horizontal|primary|stacked|iso" [data-glitch="off"]></span>
+   Color: variables CSS de css/brand.css (--tal-word, --tal-block, --tal-block-ink, --tal-blend).
+   API:   window.taLogo.render(el) · window.taLogo.svg(variante, {glitch:false}) */
+(function () {
+  "use strict";
+  var WORD = "M26.7 -49.7Q25.2 -49.7 24.3 -47.75Q23.4 -45.8 22.9 -42.6Q22.4 -39.4 22.2 -35.35Q22 -31.3 22 -27.2Q22 -21.8 23.15 -17.95Q24.3 -14.1 26.75 -12.05Q29.2 -10 33 -10H45.4V-1.5Q43.6 -1 41.05 -0.55Q38.5 -0.1 35.9 0.3Q33.3 0.7 31.35 0.9Q29.4 1.1 28.9 1.1Q21.2 1.1 16.05 -2.2Q10.9 -5.5 8.35 -11.85Q5.8 -18.2 5.8 -27.3Q5.8 -31 6.55 -34.9Q7.3 -38.8 8.6 -41.9Q10 -43.6 12.6 -45.6Q15.2 -47.6 18.2 -49.15Q21.2 -50.7 23.8 -50.8ZM49.5 -61 47.6 -51.7Q45.6 -50.9 43.1 -50.05Q40.6 -49.2 38.3 -48.65Q36 -48.1 34.3 -48.1Q32.1 -48.1 30.4 -48.6Q28.7 -49.1 27 -49.6Q25.3 -50.1 23 -50.1Q22.5 -50.1 21.35 -50Q20.2 -49.9 19.4 -49.7L19.2 -50.3L1 -52.3L2.9 -63.7Q10 -62.7 16.5 -61.8Q23 -60.9 27.7 -60.3Q32.4 -59.7 34.4 -59.7Q35.9 -59.7 37.95 -60.05Q40 -60.4 42.7 -60.95Q45.4 -61.5 48.4 -62.2ZM27.6 -10.1V-55.1H33V-15.8Q33 -15.2 32.3 -13.65Q31.6 -12.1 30.5 -10.1ZM66.6 1.1Q61.2 1.1 57.95 -0.8Q54.7 -2.7 53.15 -6Q51.6 -9.3 51.6 -13.3Q51.6 -15.6 52.05 -18Q52.5 -20.4 53.4 -22.8L66.1 -17.9Q65.8 -17.1 65.6 -16Q65.4 -14.9 65.4 -13.9Q65.4 -12 66.15 -10.35Q66.9 -8.7 68.8 -8.7Q69.7 -8.7 70.9 -9.25Q72.1 -9.8 73.55 -10.65Q75 -11.5 76.5 -12.4V-6.4Q74.8 -5.1 72.6 -3.3Q70.4 -1.5 68.7 -0.2Q67 1.1 66.6 1.1ZM53.4 -22.8 75.5 -25.4V-19.4L64.9 -16.9ZM54.4 -37.3 56.8 -46.4Q60 -46.7 63.4 -46.85Q66.8 -47 70.1 -47Q73.4 -47 76 -46.5Q77.5 -46.3 79.7 -44.55Q81.9 -42.8 84.05 -40.45Q86.2 -38.1 87.6 -35.7Q89 -33.3 89 -31.8V-8.1L93.1 -6.6V-0.9Q90.7 -0.5 87.65 0Q84.6 0.5 82.2 0.8Q79.8 1.1 79 1.1Q78.7 1.1 77.8 0.3Q76.9 -0.5 76.1 -1.45Q75.3 -2.4 75.3 -2.8V-5.9L74.7 -6.7V-29.9Q74.7 -32.8 73.85 -33.95Q73 -35.1 70.4 -35.2Q68.5 -35.4 65.9 -35.4Q63.3 -35.4 60.65 -35.3Q58 -35.2 55.9 -35.1ZM109.4 1.1Q108.6 1.1 107.25 0.1Q105.9 -0.9 104.55 -2.4Q103.2 -3.9 102.3 -5.45Q101.4 -7 101.4 -8.1V-38.3H94.2V-43.5L101.4 -46.3L110.3 -56.9Q111.3 -57 112.75 -56.45Q114.2 -55.9 115.7 -55.4V-45.7H125.7V-38H115.7V-12.3Q115.7 -10 116.25 -9.15Q116.8 -8.3 117.9 -8.3L126.8 -7.8V-0.8Q124.6 -0.5 121.85 -0.15Q119.1 0.2 116.5 0.45Q113.9 0.7 111.95 0.9Q110 1.1 109.4 1.1ZM142.7 1.1Q141.9 1.1 140.55 0.1Q139.2 -0.9 137.85 -2.4Q136.5 -3.9 135.6 -5.45Q134.7 -7 134.7 -8.1V-38.3H127.5V-43.5L134.7 -46.3L143.6 -56.9Q144.6 -57 146.05 -56.45Q147.5 -55.9 149 -55.4V-45.7H159V-38H149V-12.3Q149 -10 149.55 -9.15Q150.1 -8.3 151.2 -8.3L160.1 -7.8V-0.8Q157.9 -0.5 155.15 -0.15Q152.4 0.2 149.8 0.45Q147.2 0.7 145.25 0.9Q143.3 1.1 142.7 1.1ZM187 1.1Q175.8 1.1 169.7 -4.15Q163.6 -9.4 163.6 -20.7Q163.6 -25.1 164.35 -29.4Q165.1 -33.7 166.1 -35.9Q167.1 -37.1 169.6 -38.95Q172.1 -40.8 175.05 -42.6Q178 -44.4 180.55 -45.7Q183.1 -47 184.2 -47Q195.6 -47 201.4 -41.35Q207.2 -35.7 207.2 -25.3Q207.2 -20.3 206.4 -16.1Q205.6 -11.9 204.7 -9.6Q203.7 -8.4 201.3 -6.65Q198.9 -4.9 196 -3.1Q193.1 -1.3 190.6 -0.1Q188.1 1.1 187 1.1ZM187.1 -6.2Q187.4 -6.3 188.3 -6.65Q189.2 -7 190 -7.4Q190.8 -7.8 190.8 -7.8Q191.2 -10.1 191.6 -13.9Q192 -17.7 192 -23.8Q192 -28 191.25 -31.6Q190.5 -35.2 188.7 -37.45Q186.9 -39.7 183.8 -39.7Q183.2 -39.7 182.6 -39.65Q182 -39.6 181.3 -39.3Q180.3 -38.9 179.55 -34.3Q178.8 -29.7 178.8 -22.2Q178.8 -15.7 180.05 -12.25Q181.3 -8.8 183.25 -7.5Q185.2 -6.2 187.1 -6.2ZM236 1.1Q224.8 1.1 218.7 -4.15Q212.6 -9.4 212.6 -20.7Q212.6 -25.1 213.35 -29.4Q214.1 -33.7 215.1 -35.9Q216.1 -37.1 218.6 -38.95Q221.1 -40.8 224.05 -42.6Q227 -44.4 229.55 -45.7Q232.1 -47 233.2 -47Q244.6 -47 250.4 -41.35Q256.2 -35.7 256.2 -25.3Q256.2 -20.3 255.4 -16.1Q254.6 -11.9 253.7 -9.6Q252.7 -8.4 250.3 -6.65Q247.9 -4.9 245 -3.1Q242.1 -1.3 239.6 -0.1Q237.1 1.1 236 1.1ZM236.1 -6.2Q236.4 -6.3 237.3 -6.65Q238.2 -7 239 -7.4Q239.8 -7.8 239.8 -7.8Q240.2 -10.1 240.6 -13.9Q241 -17.7 241 -23.8Q241 -28 240.25 -31.6Q239.5 -35.2 237.7 -37.45Q235.9 -39.7 232.8 -39.7Q232.2 -39.7 231.6 -39.65Q231 -39.6 230.3 -39.3Q229.3 -38.9 228.55 -34.3Q227.8 -29.7 227.8 -22.2Q227.8 -15.7 229.05 -12.25Q230.3 -8.8 232.25 -7.5Q234.2 -6.2 236.1 -6.2Z";
+  var T = "M26.7 -49.7Q25.2 -49.7 24.3 -47.75Q23.4 -45.8 22.9 -42.6Q22.4 -39.4 22.2 -35.35Q22 -31.3 22 -27.2Q22 -21.8 23.15 -17.95Q24.3 -14.1 26.75 -12.05Q29.2 -10 33 -10H45.4V-1.5Q43.6 -1 41.05 -0.55Q38.5 -0.1 35.9 0.3Q33.3 0.7 31.35 0.9Q29.4 1.1 28.9 1.1Q21.2 1.1 16.05 -2.2Q10.9 -5.5 8.35 -11.85Q5.8 -18.2 5.8 -27.3Q5.8 -31 6.55 -34.9Q7.3 -38.8 8.6 -41.9Q10 -43.6 12.6 -45.6Q15.2 -47.6 18.2 -49.15Q21.2 -50.7 23.8 -50.8ZM49.5 -61 47.6 -51.7Q45.6 -50.9 43.1 -50.05Q40.6 -49.2 38.3 -48.65Q36 -48.1 34.3 -48.1Q32.1 -48.1 30.4 -48.6Q28.7 -49.1 27 -49.6Q25.3 -50.1 23 -50.1Q22.5 -50.1 21.35 -50Q20.2 -49.9 19.4 -49.7L19.2 -50.3L1 -52.3L2.9 -63.7Q10 -62.7 16.5 -61.8Q23 -60.9 27.7 -60.3Q32.4 -59.7 34.4 -59.7Q35.9 -59.7 37.95 -60.05Q40 -60.4 42.7 -60.95Q45.4 -61.5 48.4 -62.2ZM27.6 -10.1V-55.1H33V-15.8Q33 -15.2 32.3 -13.65Q31.6 -12.1 30.5 -10.1Z";
+  var AR = "M0.54 0 6.55 -25.2H15.48L21.49 0H16.52L15.3 -5.4H6.73L5.51 0ZM7.74 -9.94H14.26L11.34 -22.82H10.69ZM24.66 0V-25.2H34.31Q36.9 -25.2 38.66 -24.26Q40.43 -23.33 41.33 -21.76Q42.23 -20.2 42.23 -18.25V-17.39Q42.23 -15.84 41.38 -14.49Q40.54 -13.14 38.84 -12.42V-11.77Q40.1 -11.63 40.84 -10.8Q41.58 -9.97 41.58 -8.71V0H36.83V-7.56Q36.83 -8.42 36.38 -8.96Q35.93 -9.5 34.88 -9.5H29.41V0ZM29.41 -14.04H33.95Q35.68 -14.04 36.58 -14.87Q37.48 -15.7 37.48 -17.14V-17.57Q37.48 -18.83 36.58 -19.75Q35.68 -20.66 33.95 -20.66H29.41Z";
+  // Bloque "AR_" a escala 1: 82.5 x 40.5 (unidades de una palabra de cuerpo 100).
+  var BW = 82.5, BH = 40.5;
+  var LAYOUT = {
+    horizontal: { box: "-5 -69 362 76", bx: 270, by: -39.4, bs: 1 },
+    primary:    { box: "-5 -69 266 108", bx: 204.85, by: 11, bs: 0.62 },
+    stacked:    { box: "-5 -69 266 108", bx: 103, by: 11, bs: 0.62 }
+  };
+  // Franjas del glitch: [y, alto, clase, color]
+  var BANDS = [[-62, 8, "tal-g1", "#c8f560"], [-40, 6, "tal-g2", "#2ee6ff"], [-20, 9, "tal-g3", "#ff2e88"]];
+  var n = 0;
+
+  function block(x, y, s) {
+    return '<g transform="translate(' + x + " " + y + ") scale(" + s + ')">' +
+      '<rect width="' + BW + '" height="' + BH + '" style="fill:var(--tal-block,#c8f560)"/>' +
+      '<path transform="translate(12 29.5) scale(.75)" d="' + AR + '" style="fill:var(--tal-block-ink,#0b0b0b)"/>' +
+      '<rect class="tal-blink" x="52.5" y="27" width="18" height="4.5" style="fill:var(--tal-block-ink,#0b0b0b)"/></g>';
+  }
+
+  function word(id, glitch) {
+    var out = '<defs><path id="' + id + 'w" d="' + WORD + '"/>';
+    if (glitch) BANDS.forEach(function (b, i) {
+      out += '<clipPath id="' + id + "c" + i + '"><rect x="-20" y="' + b[0] + '" width="300" height="' + b[1] + '"/></clipPath>';
+    });
+    out += "</defs>";
+    if (glitch) {
+      out += '<g style="mix-blend-mode:var(--tal-blend,screen)">' +
+        '<use href="#' + id + 'w" x="-2" style="fill:#2ee6ff"/><use href="#' + id + 'w" x="2" style="fill:#ff2e88"/></g>';
+    }
+    out += '<use href="#' + id + 'w" style="fill:var(--tal-word,#f2f0eb)"/>';
+    if (glitch) BANDS.forEach(function (b, i) {
+      out += '<g clip-path="url(#' + id + "c" + i + ')"><g class="' + b[2] + '"><use href="#' + id + 'w" style="fill:' + b[3] + '"/></g></g>';
+    });
+    return out;
+  }
+
+  function svg(variant, opts) {
+    opts = opts || {};
+    var id = "tal" + (++n) + "-";
+    var label = opts.label === "" ? ' aria-hidden="true"' : ' role="img" aria-label="' + (opts.label || "Tattoo AR") + '"';
+    if (variant === "iso") {
+      return '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"' + label + ">" +
+        '<rect width="100" height="100" rx="22" style="fill:var(--tal-iso-bg,#0b0b0b)"/>' +
+        '<path transform="translate(25.5 78.5)" d="' + T + '" style="fill:var(--tal-iso-ink,#f2f0eb)"/>' +
+        '<rect class="tal-blink" x="63" y="82.5" width="16" height="5" style="fill:#c8f560"/></svg>';
+    }
+    var glitch = opts.glitch !== false;
+    // "word": solo la palabra, para marcas de agua decorativas (nunca como logo: el bloque AR no se separa).
+    if (variant === "word") {
+      return '<svg viewBox="-5 -69 266 76" xmlns="http://www.w3.org/2000/svg"' + label + ">" + word(id, glitch) + "</svg>";
+    }
+    var L = LAYOUT[variant] || LAYOUT.horizontal;
+    return '<svg viewBox="' + L.box + '" xmlns="http://www.w3.org/2000/svg"' + label + ">" +
+      word(id, glitch) + block(L.bx, L.by, L.bs) + "</svg>";
+  }
+
+  function render(el) {
+    var variant = el.getAttribute("data-ta-logo") || "horizontal";
+    var hidden = el.getAttribute("aria-hidden") === "true" || el.closest("[aria-hidden='true']");
+    el.innerHTML = svg(variant, { glitch: el.getAttribute("data-glitch") !== "off", label: hidden ? "" : el.getAttribute("data-label") });
+  }
+
+  function renderAll(root) {
+    (root || document).querySelectorAll("[data-ta-logo]").forEach(render);
+  }
+
+  // paths: geometría cruda del logo horizontal (la usa la máquina 3D de la landing para tatuarlo).
+  window.taLogo = { svg: svg, render: render, renderAll: renderAll,
+    paths: { word: WORD, ar: AR, block: { x: LAYOUT.horizontal.bx, y: LAYOUT.horizontal.by, w: BW, h: BH } } };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { renderAll(); });
+  else renderAll();
+})();

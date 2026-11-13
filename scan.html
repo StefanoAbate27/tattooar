@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <meta name="robots" content="noindex" />
+  <title>TattooAR — Escanear</title>
+  <meta name="description" content="Apuntá la cámara al tatuaje y miralo cobrar vida. Sin instalar nada." />
+  <script>
+    (function(){try{var l=localStorage.getItem('ta:lang');if(!l){var n=(navigator.language||'es').slice(0,2);l=['es','en','pt','fr','de'].indexOf(n)>=0?n:'en';}
+      document.documentElement.setAttribute('lang',l);window.__taLang=l;}catch(e){}})();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@800&family=Inter+Tight:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <link rel="stylesheet" href="css/scan.css?v=5" />
+  <link rel="stylesheet" href="css/brand.css?v=3" />
+  <script src="js/brand-logo.js?v=3"></script>
+</head>
+<body class="scan">
+  <!-- Íconos (Lucide, trazo 1.75) -->
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></symbol>
+    <symbol id="i-torch" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="w1" d="M15.5 8.5a5 5 0 0 1 0 7"/><path class="w2" d="M19 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  </svg>
+
+  <!-- Saludo de entrada (una vez por sesión) -->
+  <div id="scan-preloader" aria-hidden="true"><p><i></i><span></span></p></div>
+
+  <!-- Barra superior -->
+  <header class="s-top">
+    <a class="s-home" href="index.html" aria-label="TattooAR — volver al inicio">
+      <span class="s-home-logo tal-dark" data-ta-logo="horizontal" data-glitch="off" aria-hidden="true"></span>
+      <span class="s-home-block tar-block" aria-hidden="true">AR_</span>
+    </a>
+    <span class="s-live tar-label tar-live" id="liveTag" hidden data-i18n="live">En vivo</span>
+    <div class="s-top-right">
+      <label class="s-lang tar-label"><span class="ta-sr" data-i18n="lang">Idioma</span>
+        <select id="langSel" aria-label="Idioma">
+          <option value="es">ES</option><option value="en">EN</option><option value="pt">PT</option><option value="fr">FR</option><option value="de">DE</option>
+        </select>
+      </label>
+      <button class="s-icon" id="soundBtn" hidden aria-pressed="false" aria-label="Sonido"><svg class="ic"><use href="#i-sound"/></svg></button>
+      <button class="s-icon" id="helpBtn" aria-label="Ayuda" aria-haspopup="dialog"><svg class="ic"><use href="#i-help"/></svg></button>
+    </div>
+  </header>
+
+  <!-- Inicio: antes de abrir la cámara -->
+  <main id="intro" class="s-intro">
+    <div class="s-ghost" aria-hidden="true"><span data-ta-logo="word" data-glitch="off"></span></div>
+    <div class="s-card">
+      <div class="s-thumb" id="thumb" hidden><img id="thumbImg" alt="" /><i class="tar-vf"></i></div>
+      <p class="s-kicker tar-label"><span class="s-ar">AR_</span> <span id="introKicker" data-i18n="kicker">Tatuajes en vivo</span><i class="tar-cursor"></i></p>
+      <h1 class="s-title" data-i18n="title">Escaneá</h1>
+      <p class="s-text" id="introText" data-i18n="text.universal">Apuntá la cámara a un tatuaje activado y miralo cobrar vida.</p>
+      <button id="startBtn" class="s-btn" disabled>
+        <svg class="ic" aria-hidden="true"><use href="#i-scan"/></svg><span id="startLabel" data-i18n="btn.loading">Cargando…</span>
+      </button>
+      <div class="s-progress" id="progress" hidden role="progressbar" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+      <p class="s-hint" id="introHint" role="status" aria-live="polite"></p>
+      <a class="s-link" id="demoLink" href="scan.html?t=demo" hidden><span data-i18n="demo.try">Probar con el flash de muestra</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <div class="s-inapp" id="inapp" hidden>
+        <p data-i18n="inapp">Estás en el navegador de una app. Si la cámara no abre, copiá el link y abrilo en Safari o Chrome.</p>
+        <button class="s-link" id="copyBtn"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span data-i18n="copy">Copiar link</span></button>
+      </div>
+      <p class="s-privacy tar-label" data-i18n="privacy">La cámara se procesa en tu celular · No se sube nada</p>
+    </div>
+  </main>
+
+  <!-- Cámara encendida: visor y controles -->
+  <div id="hud" class="s-hud" hidden>
+    <div class="s-vf" id="vf"><i class="tar-vf"></i><span class="s-scanline"></span></div>
+    <div class="s-cap" role="status" aria-live="polite">
+      <p class="tar-label" id="capText">Buscando tatuaje</p>
+      <p class="s-cap-name" id="capName"></p>
+    </div>
+    <p class="s-tip" id="tip" hidden></p>
+    <div class="s-controls">
+      <button class="s-ctl" id="torchBtn" hidden aria-pressed="false"><span class="s-ctl-ic"><svg class="ic"><use href="#i-torch"/></svg></span><span class="tar-label" data-i18n="ctl.torch">Linterna</span></button>
+      <button class="s-shutter" id="shotBtn" aria-label="Foto"><i></i></button>
+      <button class="s-ctl" id="shareBtn"><span class="s-ctl-ic"><svg class="ic"><use href="#i-share"/></svg></span><span class="tar-label" data-i18n="ctl.share">Compartir</span></button>
+    </div>
+  </div>
+  <div class="s-flash" id="flash" aria-hidden="true"></div>
+
+  <!-- Ayuda -->
+  <div class="s-sheet" id="helpSheet" role="dialog" aria-modal="true" aria-labelledby="helpTitle" hidden>
+    <div class="s-sheet-box">
+      <button class="s-icon s-sheet-x" data-close aria-label="Cerrar"><svg class="ic"><use href="#i-x"/></svg></button>
+      <p class="tar-label s-ar">AR_ <span data-i18n="help.kicker">Ayuda</span></p>
+      <h2 id="helpTitle" data-i18n="help.title">Para que se vea mejor</h2>
+      <ol class="s-tips">
+        <li><span class="tar-label">01</span><span data-i18n="tip.1">Acercá el celular hasta que el tatuaje llene el visor.</span></li>
+        <li><span class="tar-label">02</span><span data-i18n="tip.2">Buscá buena luz y evitá los reflejos.</span></li>
+        <li><span class="tar-label">03</span><span data-i18n="tip.3">Mantené el celular quieto un segundo.</span></li>
+        <li><span class="tar-label">04</span><span data-i18n="tip.4">Estirá la piel para que el diseño quede plano.</span></li>
+      </ol>
+      <p class="s-sheet-note" data-i18n="help.note">Si la cámara no abre, revisá el permiso en el candado de la barra de direcciones.</p>
+    </div>
+  </div>
+
+  <!-- Foto tomada -->
+  <div class="s-sheet" id="shotSheet" role="dialog" aria-modal="true" aria-labelledby="shotTitle" hidden>
+    <div class="s-sheet-box">
+      <button class="s-icon s-sheet-x" data-close aria-label="Cerrar"><svg class="ic"><use href="#i-x"/></svg></button>
+      <p class="tar-label s-ar">AR_ <span id="shotTitle" data-i18n="shot.title">Tu foto</span></p>
+      <div class="s-shot"><img id="shotImg" alt="" /><i class="tar-vf"></i></div>
+      <div class="s-sheet-actions">
+        <button class="s-btn" id="shotShare"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg><span data-i18n="shot.share">Compartir</span></button>
+        <a class="s-btn s-btn-ghost" id="shotSave" download="tattooar.jpg"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="shot.save">Guardar</span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-toast tar-label" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- La escena AR se monta acá -->
+  <div id="ar-root"></div>
+
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/effects.js?v=5"></script>
+  <script src="js/living-tattoo.js?v=3"></script>
+  <script src="js/keyed-video.js?v=3"></script>
+  <script src="js/scanner.js?v=6"></script>
+</body>
+</html>

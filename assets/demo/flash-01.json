@@ -1,0 +1,8 @@
+{
+  "format": "tattoo-ar/3",
+  "name": "Flash 01 · Tinta viva",
+  "image": "flash-01-ink.png",
+  "mindUrl": "flash-01.mind",
+  "targetAspect": 1.25,
+  "content": { "type": "effect", "id": "ink-energy", "p1": 1.2, "p2": 1.3, "accent": "#c8f560" }
+}

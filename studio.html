@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <title>TattooAR — Estudio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@800&family=Inter+Tight:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>
+    (function(){try{var t=localStorage.getItem('ta:theme')||'dark';document.documentElement.setAttribute('data-theme',t);
+      var l=localStorage.getItem('ta:lang');if(!l){var n=(navigator.language||'es').slice(0,2);l=['es','en','pt','fr','de'].indexOf(n)>=0?n:'en';}
+      document.documentElement.setAttribute('lang',l);window.__taLang=l;}catch(e){}})();
+  </script>
+
+  <!-- THREE para el preview del efecto -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+  <!-- Motor MindAR (engine + compilador de targets, corre en el navegador).
+       Es un módulo ESM: al cargarse define window.MINDAR.IMAGE.Compiler. -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js"></script>
+  <!-- Generador de QR -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/effects.js?v=5"></script>
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/brand.css?v=3" />
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <script src="js/brand-logo.js?v=3"></script>
+</head>
+<body class="app auth-pending">
+  <header class="topbar">
+    <a href="index.html" class="back" aria-label="Volver al inicio">←</a>
+    <a href="index.html" class="logo logo-link" aria-label="Tattoo AR — volver al inicio"><span data-ta-logo="horizontal" data-glitch="off" aria-hidden="true"></span></a>
+    <div class="topbar-spacer"></div>
+    <span class="user-chip" id="userChip" hidden>Hola, <b id="userName"></b> · <button class="logout-btn" id="logoutBtn">Salir</button></span>
+    <button class="ctl-btn" id="profileBtn" title="Editar perfil" hidden><svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.7"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg></button>
+    <a class="ctl-btn" id="adminLink" href="admin.html" title="Panel admin" hidden><svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.7"><path d="M3 13h8V3H3zM13 21h8V11h-8zM13 3v6h8V3zM3 21h8v-6H3z"/></svg></a>
+    <button class="ctl-btn" id="themeBtn" aria-label="Cambiar tema"><span id="themeIcon"></span></button>
+    <button class="ctl-btn ctl-lang" id="langBtn" aria-label="Idioma"><span id="langCode">ES</span><span class="chev">▾</span></button>
+  </header>
+  <div class="app-lang-menu" id="langMenu">
+    <button data-lang="es"><span>Español</span><span class="code">ES</span></button>
+    <button data-lang="en"><span>English</span><span class="code">EN</span></button>
+    <button data-lang="pt"><span>Português</span><span class="code">PT</span></button>
+    <button data-lang="fr"><span>Français</span><span class="code">FR</span></button>
+    <button data-lang="de"><span>Deutsch</span><span class="code">DE</span></button>
+  </div>
+
+  <main class="studio-wrap">
+    <div class="studio-hero">
+      <span class="eyebrow tar-label"><span class="eb-ar">AR_</span> Estudio · <span id="studioArtist">tatuador</span></span>
+      <h1 class="studio-h1">Dale vida a tus <em>tatuajes</em></h1>
+      <p class="studio-lead">Subí el diseño, elegí cómo se mueve y generá el link que tu cliente escanea con la cámara.</p>
+    </div>
+
+    <div class="studio">
+      <!-- Columna izquierda: preview -->
+      <section class="studio-preview">
+        <div class="panel-card preview-card">
+          <span class="card-tag">Vista previa</span>
+          <div id="drop" class="dropzone">
+            <input type="file" id="file" accept="image/*" hidden />
+            <div id="drop-empty">
+              <div class="hub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg><i class="tar-vf"></i></div>
+              <p><b>Subí la imagen del tatuaje</b></p>
+              <p class="hint">PNG con fondo transparente = mejor resultado. También sirve JPG/PNG con fondo sólido.</p>
+              <button class="btn-primary" id="pick">Elegir imagen</button>
+            </div>
+            <canvas id="preview" hidden></canvas>
+          </div>
+          <p class="hint center" id="alpha-note"></p>
+        </div>
+      </section>
+
+      <!-- Columna derecha: controles -->
+      <section class="studio-panel">
+        <div class="panel-card step">
+          <div class="step-head"><span class="step-num">01</span>
+            <div class="step-titles"><h3>Contenido que cobra vida</h3><p class="step-sub">Un efecto sobre la imagen, o tu propio video.</p></div>
+          </div>
+          <div class="content-tabs">
+            <button id="ct-effect" class="tab active">Efecto de la imagen</button>
+            <button id="ct-video" class="tab">Video propio</button>
+          </div>
+
+          <div id="pane-effect">
+            <div id="effects" class="effect-grid"></div>
+            <div class="sliders">
+              <label><span id="l1">Velocidad</span>
+                <input type="range" id="p1" min="0" max="3" step="0.01" /></label>
+              <label><span id="l2">Intensidad</span>
+                <input type="range" id="p2" min="0" max="2" step="0.01" /></label>
+              <label><span>Color de acento</span>
+                <input type="color" id="accent" value="#c8f560" /></label>
+            </div>
+          </div>
+
+          <div id="pane-video" hidden>
+            <p class="hint">Subí tu animación (mp4/webm). El fondo se recorta en vivo en la cámara del cliente.</p>
+            <input type="file" id="video-file" accept="video/*" hidden />
+            <button class="btn-ghost" id="pick-video">Elegir video</button>
+            <div class="sliders">
+              <label><span>Quitar fondo</span>
+                <select id="v-mode">
+                  <option value="luma-white">Blanco (bocetos)</option>
+                  <option value="luma-black">Negro</option>
+                  <option value="chroma">Verde/Croma</option>
+                  <option value="none">Ya es transparente</option>
+                </select></label>
+              <label><span>Solidez del trazo</span>
+                <input type="range" id="v-gain" min="0" max="1" step="0.02" value="0.62" /></label>
+            </div>
+            <p class="hint" id="video-note"></p>
+          </div>
+        </div>
+
+        <div class="panel-card step">
+          <div class="step-head"><span class="step-num">02</span>
+            <div class="step-titles"><h3>Generar diseño AR</h3><p class="step-sub">Compila el target para que la cámara reconozca el tatuaje.</p></div>
+          </div>
+          <button class="btn-primary block" id="generate" disabled>Generar diseño AR <span class="arr">→</span></button>
+          <div id="gen-status" class="status"></div>
+          <p class="hint">¿La compilación falla o tarda mucho? Generá el target en el
+            <a href="https://hiukim.github.io/mind-ar-js-doc/tools/compile" target="_blank" rel="noopener">compilador oficial de MindAR</a>
+            e importá el <code>.mind</code> acá:</p>
+          <input type="file" id="mind-file" accept=".mind,application/octet-stream" hidden />
+          <button class="btn-ghost" id="import-mind">Importar .mind</button>
+        </div>
+
+        <div id="result" class="panel-card step result hidden">
+          <div class="step-head"><span class="step-num">03</span>
+            <div class="step-titles"><h3>Publicar y compartir</h3><p class="step-sub">Publicá el diseño y compartí el link o el QR con tu cliente.</p></div>
+          </div>
+          <label class="field-inline"><span>Nombre del diseño</span>
+            <input type="text" id="design-name" placeholder="Golondrina de Ana" /></label>
+          <button class="btn-primary block" id="publish">Publicar y generar QR <span class="arr">→</span></button>
+          <div id="pub-status" class="status"></div>
+          <div class="result-actions">
+            <button class="btn-ghost" id="download">Descargar .json</button>
+            <button class="btn-ghost" id="test">Probar en el escáner</button>
+          </div>
+
+          <details class="advanced">
+            <summary>Ya lo alojaste (avanzado)</summary>
+            <div class="qr-row">
+              <input type="url" id="hosted-url" placeholder="https://tu-sitio.com/mi-tatuaje.json" />
+              <button class="btn-ghost" id="make-qr">Generar QR</button>
+            </div>
+          </details>
+
+          <div id="qr" class="qr"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Mis diseños -->
+    <section class="panel-card mydesigns" id="mydesigns" hidden>
+      <div class="mydesigns-head">
+        <div class="step-titles"><h3>Mis diseños</h3><p class="step-sub">Todo lo que publicaste y cuántas veces lo escanearon.</p></div>
+        <span class="hint" id="mydesigns-count"></span>
+      </div>
+      <div class="table-wrap">
+        <table class="admin-table" id="mydesigns-table">
+          <thead><tr><th>Diseño</th><th>Vistas</th><th>Creado</th><th></th></tr></thead>
+          <tbody id="mydesigns-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/studio.js?v=3"></script>
+  <script src="js/app-ui.js"></script>
+  <script src="js/app-anim.js"></script>
+  <script src="js/countries.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/studio-guard.js"></script>
+  <script src="js/welcome.js"></script>
+  <script type="module" src="js/split-flap.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "format": "tattoo-ar/2",
+  "name": "Demo — golondrina",
+  "content": { "type": "effect", "id": "glow-pulse", "p1": 1, "p2": 1, "accent": "#abff84" },
+  "image": "https://tattoo-ar-nine.vercel.app/assets/animations/sample-tattoo.png"
+}

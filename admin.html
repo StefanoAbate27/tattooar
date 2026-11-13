@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <title>TattooAR — Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@800&family=Inter+Tight:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>
+    (function(){try{var t=localStorage.getItem('ta:theme')||'dark';document.documentElement.setAttribute('data-theme',t);
+      var l=localStorage.getItem('ta:lang');if(!l){var n=(navigator.language||'es').slice(0,2);l=['es','en','pt','fr','de'].indexOf(n)>=0?n:'en';}
+      document.documentElement.setAttribute('lang',l);window.__taLang=l;}catch(e){}})();
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/brand.css?v=3" />
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <script src="js/brand-logo.js?v=3"></script>
+</head>
+<body class="admin-body auth-pending">
+  <div class="admin-shell">
+    <div class="sidebar-scrim" id="scrim"></div>
+    <aside class="sidebar" id="sidebar">
+      <a href="index.html" class="sidebar-logo logo-link" aria-label="Tattoo AR — volver al inicio"><span data-ta-logo="horizontal" data-glitch="off" aria-hidden="true"></span></a>
+      <p class="sidebar-kicker">Panel de control</p>
+      <nav class="sidebar-nav" id="nav">
+        <button class="nav-item active" data-view="overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+          <span>Resumen</span></button>
+        <button class="nav-item" data-view="designs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M3 9h18M9 21V9"/></svg>
+          <span>Diseños</span></button>
+        <button class="nav-item" data-view="artists">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 6.5a3 3 0 0 1 0 5.6M18 20a5 5 0 0 0-2.5-4.3"/></svg>
+          <span>Tatuadores</span></button>
+        <button class="nav-item" data-view="revenue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 19V5M4 19h16M8 16l3.5-4 3 2.5L20 8"/></svg>
+          <span>Ingresos</span></button>
+        <button class="nav-item" data-view="settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.2A1.6 1.6 0 0 0 6.6 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 6.7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10 3.1V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8"/></svg>
+          <span>Ajustes</span></button>
+      </nav>
+      <div class="sidebar-foot">
+        <a href="studio.html" class="nav-item ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l-6 6 6 6"/></svg>
+          <span>Ir al generador</span></a>
+        <div class="side-user">
+          <div class="avatar" id="sideAvatar">A</div>
+          <div class="side-user-txt"><b id="sideName">Admin</b><span>Administrador</span></div>
+        </div>
+        <button class="logout-btn wide" id="logoutBtn">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-head">
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="head-titles">
+          <h1 class="view-title" id="viewTitle">Resumen</h1>
+          <p class="view-sub" id="viewSub">Estado general del estudio en tiempo real.</p>
+        </div>
+        <div class="head-actions">
+          <button class="ctl-btn" id="profileBtn" aria-label="Editar perfil" title="Editar perfil">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+          </button>
+          <button class="ctl-btn" id="themeBtn" aria-label="Cambiar tema"><span id="themeIcon"></span></button>
+        </div>
+      </header>
+
+      <div class="admin-content" id="content">
+
+        <!-- ===== RESUMEN ===== -->
+        <section data-panel="overview">
+          <div id="ov-react" class="ov-react"></div>
+          <div class="grid-2">
+            <div class="panel-card">
+              <div class="card-head"><h2>Top tatuadores</h2><span class="hint">por vistas</span></div>
+              <div class="rank" id="top-artists"></div>
+            </div>
+            <div class="panel-card">
+              <div class="card-head"><h2>Actividad reciente</h2><span class="hint">últimos diseños</span></div>
+              <div class="table-wrap"><table class="admin-table">
+                <thead><tr><th>Diseño</th><th>Tatuador</th><th>Vistas</th><th>Fecha</th></tr></thead>
+                <tbody id="recent-body"></tbody>
+              </table></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== DISEÑOS ===== -->
+        <section data-panel="designs" hidden>
+          <div class="toolbar">
+            <input type="search" id="designs-search" class="search-input" placeholder="Buscar diseño o tatuador…" />
+            <span class="hint" id="designs-count"></span>
+          </div>
+          <div class="panel-card">
+            <div class="table-wrap"><table class="admin-table">
+              <thead><tr><th>Diseño</th><th>Tatuador</th><th>Vistas</th><th>Creado</th><th></th></tr></thead>
+              <tbody id="designs-body"></tbody>
+            </table></div>
+          </div>
+        </section>
+
+        <!-- ===== TATUADORES ===== -->
+        <section data-panel="artists" hidden>
+          <div id="pending-callout" class="pending-callout" hidden></div>
+          <div class="panel-card create-card">
+            <div class="card-head"><h2>Crear / autorizar cuenta</h2><span class="hint">pre-aprueba a un tatuador por email</span></div>
+            <div class="create-row">
+              <input type="email" id="pa-email" class="search-input" placeholder="email@tatuador.com" />
+              <select id="pa-plan" class="mini-select"><option value="pro">Pro</option><option value="studio">Studio</option><option value="free">Free</option></select>
+              <button class="btn-primary" id="pa-btn">Autorizar</button>
+            </div>
+            <p class="hint" id="pa-msg">Cuando esta persona se registre con ese email, su cuenta queda <b>activa</b> con el plan elegido (sin esperar aprobación).</p>
+          </div>
+          <div class="toolbar">
+            <input type="search" id="artists-search" class="search-input" placeholder="Buscar tatuador…" />
+            <span class="hint" id="artists-count"></span>
+          </div>
+          <div class="panel-card">
+            <div class="table-wrap"><table class="admin-table">
+              <thead><tr><th>Tatuador</th><th>Contacto</th><th>Plan</th><th>Estado</th><th>Diseños</th><th>Vistas</th><th></th></tr></thead>
+              <tbody id="artists-body"></tbody>
+            </table></div>
+          </div>
+        </section>
+
+        <!-- ===== INGRESOS ===== -->
+        <section data-panel="revenue" hidden>
+          <div class="kpi-grid">
+            <div class="kpi accent"><span class="kpi-num" id="r-mrr">—</span><span class="kpi-label">MRR</span><span class="kpi-foot">ingreso mensual recurrente</span></div>
+            <div class="kpi"><span class="kpi-num" id="r-arr">—</span><span class="kpi-label">ARR</span><span class="kpi-foot">proyección anual</span></div>
+            <div class="kpi"><span class="kpi-num" id="r-paying">—</span><span class="kpi-label">Clientes de pago</span><span class="kpi-foot" id="r-paying-foot"></span></div>
+            <div class="kpi"><span class="kpi-num" id="r-arpu">—</span><span class="kpi-label">ARPU</span><span class="kpi-foot">ingreso por tatuador</span></div>
+          </div>
+          <div class="panel-card">
+            <div class="card-head"><h2>Ingresos por plan</h2><span class="hint">según planes asignados</span></div>
+            <div class="donut-row"><div id="rev-react"></div><div class="donut-legend" id="rev-legend"></div></div>
+            <div class="table-wrap" style="margin-top:1.2rem"><table class="admin-table">
+              <thead><tr><th>Plan</th><th>Precio / mes</th><th>Tatuadores</th><th>Subtotal / mes</th></tr></thead>
+              <tbody id="revenue-body"></tbody>
+            </table></div>
+          </div>
+        </section>
+
+        <!-- ===== AJUSTES ===== -->
+        <section data-panel="settings" hidden>
+          <div class="panel-card">
+            <div class="card-head"><h2>Planes del servicio</h2><span class="hint">lo que ofreces a los tatuadores</span></div>
+            <div class="plan-cards" id="plan-cards"></div>
+            <p class="hint" style="margin-top:1rem">Asigna el plan de cada tatuador desde <b>Tatuadores</b>. Los ingresos se calculan automáticamente en <b>Ingresos</b>.</p>
+          </div>
+          <div class="panel-card">
+            <div class="card-head"><h2>Cómo funciona el negocio</h2></div>
+            <ul class="steps-list">
+              <li><b>1 · El tatuador se registra</b> en el generador y crea experiencias AR para sus tatuajes.</li>
+              <li><b>2 · Publica un diseño</b> y comparte el enlace o QR con su cliente.</li>
+              <li><b>3 · El cliente escanea</b> su tatuaje y lo ve cobrar vida — cada vista se registra.</li>
+              <li><b>4 · Tú cobras</b> una suscripción mensual al tatuador según su plan. Aquí llevas el control.</li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/admin.js"></script>
+  <script src="js/app-ui.js"></script>
+  <script src="js/countries.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/ink-cursor.js"></script>
+  <script src="js/welcome.js"></script>
+  <script type="module" src="js/dashboard-charts.js"></script>
+  <script type="module" src="js/split-flap.js"></script>
+</body>
+</html>

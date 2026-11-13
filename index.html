@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0b" />
+  <title>TattooAR — Tatuajes que cobran vida</title>
+  <meta name="description" content="Apuntá la cámara al tatuaje y miralo moverse. Realidad aumentada para estudios de tatuaje, directo en el navegador y sin instalar nada." />
+  <meta property="og:title" content="TattooAR — Tatuajes que cobran vida" />
+  <meta property="og:description" content="Apuntá la cámara al tatuaje y miralo moverse. Sin instalar nada." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://stefanoabate27.github.io/tattooar/assets/brand/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script>
+    (function(){try{
+      var t=localStorage.getItem('ta:theme')||'dark';
+      document.documentElement.setAttribute('data-theme',t);
+      var l=localStorage.getItem('ta:lang');
+      if(!l){var n=(navigator.language||'es').slice(0,2);l=['es','en','pt','fr','de'].indexOf(n)>=0?n:'en';}
+      document.documentElement.setAttribute('lang',l);
+      window.__taLang=l;
+    }catch(e){}})();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@800&family=Inter+Tight:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
+  <link rel="stylesheet" href="css/landing.css?v=4" />
+  <link rel="stylesheet" href="css/brand.css?v=3" />
+  <script src="js/brand-logo.js?v=4"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+</head>
+<body class="is-loading">
+  <a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
+
+  <!-- Íconos (Lucide, trazo 1.75) -->
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></symbol>
+    <symbol id="i-qr" viewBox="0 0 24 24"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path class="w1" d="M15.5 8.5a5 5 0 0 1 0 7"/><path class="w2" d="M19 5a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  </svg>
+
+  <!-- Loader -->
+  <div id="loader" role="status" aria-label="Cargando">
+    <span class="ld-logo" data-ta-logo="horizontal" aria-hidden="true"></span>
+    <div class="ld-bar"><i></i></div>
+    <div class="ld-pct tar-label"><span class="ld-ar">AR_</span> <span data-i18n="loader">Cargando</span> <span id="ldPct">000</span>%</div>
+  </div>
+
+  <!-- Navegación -->
+  <header class="nav" id="nav">
+    <a class="nav-logo" href="#top" aria-label="TattooAR — inicio"><span data-ta-logo="horizontal" data-glitch="off" aria-hidden="true"></span></a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#como" data-i18n="nav.how">Cómo funciona</a>
+      <a href="#demo" data-i18n="nav.demo">Demo</a>
+      <a href="#galeria" data-i18n="nav.gallery">Galería</a>
+      <a href="#precios" data-i18n="nav.pricing">Precios</a>
+      <a href="#faq" data-i18n="nav.faq">Preguntas</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang">
+        <button class="nav-ctl tar-label" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Idioma"><span id="langCode">ES</span></button>
+        <div class="lang-menu" id="langMenu" role="menu">
+          <button role="menuitem" data-lang="es">Español <span>ES</span></button>
+          <button role="menuitem" data-lang="en">English <span>EN</span></button>
+          <button role="menuitem" data-lang="pt">Português <span>PT</span></button>
+          <button role="menuitem" data-lang="fr">Français <span>FR</span></button>
+          <button role="menuitem" data-lang="de">Deutsch <span>DE</span></button>
+        </div>
+      </div>
+      <button class="nav-ctl" id="themeBtn" aria-label="Cambiar entre tema claro y oscuro"><svg class="ic"><use id="themeUse" href="#i-sun"/></svg></button>
+      <a class="nav-scan" href="scan.html" data-wipe data-i18n="nav.scan">Escanear</a>
+      <a class="btn btn-accent btn-sm nav-cta" href="login.html" data-wipe data-i18n="nav.cta">Probar gratis</a>
+      <button class="nav-burger tar-label" id="menuBtn" aria-expanded="false" aria-controls="menu"><span data-i18n="nav.menu">Menú</span></button>
+    </div>
+  </header>
+
+  <!-- Menú móvil -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <nav class="menu-links" aria-label="Menú">
+      <a href="#como"><span class="tar-label">01</span><span data-i18n="nav.how">Cómo funciona</span></a>
+      <a href="#demo"><span class="tar-label">02</span><span data-i18n="nav.demo">Demo</span></a>
+      <a href="#galeria"><span class="tar-label">03</span><span data-i18n="nav.gallery">Galería</span></a>
+      <a href="#precios"><span class="tar-label">04</span><span data-i18n="nav.pricing">Precios</span></a>
+      <a href="#faq"><span class="tar-label">05</span><span data-i18n="nav.faq">Preguntas</span></a>
+    </nav>
+    <div class="menu-foot">
+      <a class="btn btn-ghost" href="scan.html" data-wipe data-i18n="hero.cta2">Soy cliente</a>
+      <a class="btn btn-accent" href="login.html" data-wipe data-i18n="hero.cta1">Soy tatuador</a>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-ghost" aria-hidden="true"><span data-ta-logo="word" data-glitch="off"></span></div>
+      <div class="hero-grid wrap">
+        <div class="hero-copy">
+          <p class="hero-eyebrow tar-label"><span>AR_</span> <span data-i18n="hero.eyebrow">Tatuajes en vivo</span><i class="tar-cursor"></i></p>
+          <h1 class="hero-title">
+            <span class="ln"><span data-i18n="hero.t1">Tatuajes que</span></span>
+            <span class="ln"><span class="hl" data-i18n="hero.t2">cobran vida</span></span>
+          </h1>
+          <p class="hero-sub" data-i18n="hero.sub">Apuntá la cámara al tatuaje y miralo moverse. Sin instalar nada.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-accent" href="login.html" data-wipe><span data-i18n="hero.cta1">Soy tatuador</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-ghost" href="scan.html" data-wipe><span data-i18n="hero.cta2">Soy cliente</span></a>
+          </div>
+        </div>
+
+        <!-- Demo del escáner: el mismo flash que reconoce el escáner real -->
+        <div class="hero-demo" aria-hidden="true">
+          <div class="phone" id="phone">
+            <div class="ph-screen">
+              <div class="ph-skin"></div>
+              <div class="ph-art">
+                <img class="ph-ink" src="assets/demo/flash-01-ink.png" alt="" width="800" height="1000" />
+                <span class="ph-glow"></span>
+                <span class="ph-flow"></span>
+                <span class="ph-rgb ph-rgb-c"></span>
+                <span class="ph-rgb ph-rgb-m"></span>
+              </div>
+              <span class="ph-scanline"></span>
+              <span class="ph-vf tar-vf"></span>
+              <div class="ph-top"><span class="tar-block">AR_</span><span class="tar-label tar-live" data-i18n="live">En vivo</span></div>
+              <div class="ph-cap tar-label" id="phCap"><span class="ph-cap-a" data-i18n="scan.searching">Buscando tatuaje</span><span class="ph-cap-b" data-i18n="scan.found">Tatuaje detectado</span></div>
+              <div class="ph-bottom"><span class="tar-label" data-i18n="scan.photo">Foto</span><span class="ph-shutter"></span><span class="tar-label" data-i18n="scan.share">Compartir</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="hero-facts wrap tar-label">
+        <li><b>100%</b> <span data-i18n="fact.browser">en el navegador</span></li>
+        <li><b>0</b> <span data-i18n="fact.apps">apps que instalar</span></li>
+        <li><b>iPhone</b> + <b>Android</b></li>
+        <li><b>QR</b> <span data-i18n="fact.qr">en dos pasos</span></li>
+      </ul>
+    </section>
+
+    <!-- Cinta -->
+    <div class="ticker" aria-hidden="true"><div class="ticker-track tar-label" id="ticker"></div></div>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="sec" id="como">
+      <div class="wrap how">
+        <header class="sec-head how-head">
+          <p class="sec-kicker tar-label"><b>01</b> <span data-i18n="how.kicker">Cómo funciona</span></p>
+          <h2 class="sec-title" data-i18n="how.title">Tres pasos. Cero apps.</h2>
+          <p class="sec-lead" data-i18n="how.lead">Vos subís el diseño una vez. Tu cliente solo apunta la cámara.</p>
+          <a class="link-arrow" href="login.html" data-wipe><span data-i18n="how.cta">Abrir el estudio</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+        </header>
+        <ol class="steps">
+          <li class="step">
+            <span class="step-n">01<i>_</i></span>
+            <div class="step-body"><h3 data-i18n="how.s1t">Subí el diseño</h3><p data-i18n="how.s1d">Cargá la imagen del tatuaje. La cámara aprende a reconocerlo en la piel.</p></div>
+            <span class="step-ic"><svg class="ic"><use href="#i-upload"/></svg><i class="tar-vf"></i></span>
+          </li>
+          <li class="step">
+            <span class="step-n">02<i>_</i></span>
+            <div class="step-body"><h3 data-i18n="how.s2t">Elegí cómo se mueve</h3><p data-i18n="how.s2d">Un video tuyo o un efecto que sale de la propia tinta: pulso, destello, brasas.</p></div>
+            <span class="step-ic"><svg class="ic"><use href="#i-spark"/></svg><i class="tar-vf"></i></span>
+          </li>
+          <li class="step">
+            <span class="step-n">03<i>_</i></span>
+            <div class="step-body"><h3 data-i18n="how.s3t">Compartí el QR</h3><p data-i18n="how.s3d">Publicás y tenés link y QR. Tu cliente apunta y el tatuaje se mueve.</p></div>
+            <span class="step-ic"><svg class="ic"><use href="#i-qr"/></svg><i class="tar-vf"></i></span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- DEMO EN VIVO -->
+    <section class="sec demo" id="demo">
+      <div class="wrap demo-grid">
+        <figure class="demo-flash">
+          <div class="flash-card" id="flashCard">
+            <img src="assets/demo/flash-01.png" width="800" height="1000" loading="lazy" decoding="async" alt="Flash de muestra: corazón atravesado por una daga con la leyenda Tinta viva" />
+            <i class="tar-vf"></i>
+          </div>
+          <figcaption class="tar-label"><span data-i18n="demo.cap">Tatuaje de muestra</span> · Flash 01</figcaption>
+        </figure>
+        <div class="demo-copy">
+          <p class="sec-kicker tar-label"><b>02</b> <span data-i18n="demo.kicker">Demo en vivo</span></p>
+          <h2 class="sec-title gothic" data-i18n="demo.title">Probalo ahora</h2>
+          <p class="sec-lead" data-i18n="demo.lead">Sin registrarte. Usá tu celular como si fueras el cliente.</p>
+          <ol class="demo-steps">
+            <li><span class="tar-label">01</span><span class="only-desk" data-i18n="demo.s1">Escaneá el QR con la cámara del celular.</span><span class="only-mob" data-i18n="demo.s1m">Abrí este flash en otra pantalla, o imprimilo.</span></li>
+            <li><span class="tar-label">02</span><span data-i18n="demo.s2">Tocá "Escanear" y permití la cámara.</span></li>
+            <li><span class="tar-label">03</span><span data-i18n="demo.s3">Apuntá al flash y miralo cobrar vida.</span></li>
+          </ol>
+          <div class="demo-actions">
+            <div class="demo-qr only-desk"><div id="demoQr" role="img" aria-label="Código QR para abrir el escáner de muestra"></div><i class="tar-vf"></i></div>
+            <div class="demo-btns">
+              <a class="btn btn-accent only-mob" href="scan.html?t=demo" data-wipe><svg class="ic"><use href="#i-scan"/></svg><span data-i18n="demo.open">Abrir el escáner</span></a>
+              <a class="link-arrow" href="assets/demo/flash-01.png" download="tattooar-flash-01.png"><svg class="ic"><use href="#i-download"/></svg><span data-i18n="demo.dl">Descargar el flash</span></a>
+              <p class="demo-note tar-label only-desk" data-i18n="demo.note">Apuntá el celular a esta pantalla</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TINTA VIVA (interactivo) -->
+    <section class="alive" id="alive" aria-labelledby="aliveCap">
+      <p class="sec-kicker tar-label"><b>03</b> <span data-i18n="alive.kicker">Interacción</span></p>
+      <canvas id="ptext" aria-hidden="true"></canvas>
+      <h2 class="ta-sr">Tinta viva</h2>
+      <p class="alive-cap" id="aliveCap" data-i18n="alive.cap">Pasá el cursor por las letras. Así responde tu tatuaje en AR: se mueve, reacciona, está vivo.</p>
+      <p class="alive-hint tar-label"><span class="only-fine" data-i18n="alive.hint">Mové el cursor sobre las letras</span><span class="only-touch" data-i18n="alive.hintTouch">Tocá las letras</span></p>
+    </section>
+
+    <!-- GALERÍA -->
+    <section class="sec gallery" id="galeria">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-kicker tar-label"><b>04</b> <span data-i18n="gal.kicker">Galería</span></p>
+          <h2 class="sec-title" data-i18n="gal.title">Cada estilo, una pieza viva.</h2>
+          <p class="sec-lead" data-i18n="gal.lead">Fine line, blackwork, tradicional. Si está en la piel, se puede mover.</p>
+        </header>
+      </div>
+      <div class="gal" aria-hidden="true">
+        <div class="gal-row" id="galA"></div>
+        <div class="gal-row rev" id="galB"></div>
+      </div>
+    </section>
+
+    <!-- PARA QUIÉN -->
+    <section class="sec roles" id="roles">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-kicker tar-label"><b>05</b> <span data-i18n="roles.kicker">Para quién</span></p>
+          <h2 class="sec-title" data-i18n="roles.title">Dos lados de la misma tinta.</h2>
+        </header>
+        <div class="roles-grid">
+          <a class="role role-artist" href="login.html" data-wipe>
+            <span class="tar-label" data-i18n="roles.aKicker">Para el estudio</span>
+            <h3 data-i18n="roles.aTitle">Tatuador</h3>
+            <p data-i18n="roles.aDesc">Subís el diseño, elegís el efecto y le das a tu cliente un QR único. Una pieza que se comparte sola.</p>
+            <span class="role-go"><span data-i18n="roles.aGo">Abrir el estudio</span><svg class="ic"><use href="#i-arrow-ur"/></svg></span>
+            <svg class="role-bg ic"><use href="#i-spark"/></svg>
+          </a>
+          <a class="role role-client" href="scan.html" data-wipe>
+            <span class="tar-label" data-i18n="roles.cKicker">Para quien lo lleva</span>
+            <h3 data-i18n="roles.cTitle">Cliente</h3>
+            <p data-i18n="roles.cDesc">Abrí el link o el QR que te dio tu tatuador y apuntá la cámara. Sin apps ni cuentas.</p>
+            <span class="role-go"><span data-i18n="roles.cGo">Escanear tatuaje</span><svg class="ic"><use href="#i-arrow-ur"/></svg></span>
+            <svg class="role-bg ic"><use href="#i-scan"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- POR QUÉ -->
+    <section class="sec why" id="beneficios">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-kicker tar-label"><b>06</b> <span data-i18n="why.kicker">Por qué TattooAR</span></p>
+          <h2 class="sec-title" data-i18n="why.title">No es un filtro. Es tu tatuaje.</h2>
+        </header>
+        <div class="bento" id="bento">
+          <article class="cell cell-wide"><span class="cell-n tar-label">A</span><svg class="ic"><use href="#i-phone"/></svg><h3 data-i18n="why.b1t">Sin app</h3><p data-i18n="why.b1d">Se abre desde un link o QR en Safari o Chrome. Permiso de cámara y listo.</p><i class="tar-vf"></i></article>
+          <article class="cell"><span class="cell-n tar-label">B</span><svg class="ic"><use href="#i-scan"/></svg><h3 data-i18n="why.b2t">Reconoce la tinta</h3><p data-i18n="why.b2d">La cámara encuentra el diseño en la piel y le pega la animación encima.</p><i class="tar-vf"></i></article>
+          <article class="cell"><span class="cell-n tar-label">C</span><svg class="ic"><use href="#i-spark"/></svg><h3 data-i18n="why.b3t">Sale del diseño</h3><p data-i18n="why.b3d">La animación nace de tu propio trazo, no de una plantilla.</p><i class="tar-vf"></i></article>
+          <article class="cell"><span class="cell-n tar-label">D</span><svg class="ic"><use href="#i-video"/></svg><h3 data-i18n="why.b4t">Video o efecto</h3><p data-i18n="why.b4d">Subí tu animación o usá efectos generados desde la imagen.</p><i class="tar-vf"></i></article>
+          <article class="cell"><span class="cell-n tar-label">E</span><svg class="ic"><use href="#i-chart"/></svg><h3 data-i18n="why.b5t">Contá los escaneos</h3><p data-i18n="why.b5d">Mirá cuántas veces escanean cada pieza.</p><i class="tar-vf"></i></article>
+          <article class="cell cell-wide"><span class="cell-n tar-label">F</span><svg class="ic"><use href="#i-share"/></svg><h3 data-i18n="why.b6t">Se comparte solo</h3><p data-i18n="why.b6d">Foto y link desde el mismo escáner. Cada escaneo muestra tu trabajo.</p><i class="tar-vf"></i></article>
+        </div>
+        <dl class="stats" id="stats">
+          <div><dt data-count="0">0</dt><dd class="tar-label" data-i18n="stat.apps">apps que instalar</dd></div>
+          <div><dt data-count="3">3</dt><dd class="tar-label" data-i18n="stat.steps">pasos para publicar</dd></div>
+          <div><dt><span data-count="24">24</span>/7</dt><dd class="tar-label" data-i18n="stat.always">tu tatuaje disponible</dd></div>
+          <div><dt><span data-count="100">100</span>%</dt><dd class="tar-label" data-i18n="stat.browser">en el navegador</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- EN EL ESTUDIO -->
+    <section class="sec uses" id="estudio">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-kicker tar-label"><b>07</b> <span data-i18n="use.kicker">En tu estudio</span></p>
+          <h2 class="sec-title" data-i18n="use.title">Del mostrador a las redes.</h2>
+        </header>
+        <div class="uses-grid">
+          <article class="use">
+            <div class="use-art use-sticker" aria-hidden="true">
+              <div class="sticker">
+                <span class="sticker-h" data-i18n="use.stickerH">Escaneá</span>
+                <span class="tar-label" data-i18n="use.stickerS">Tu tatuaje cobra vida</span>
+                <div class="sticker-qr" id="stickerQr"></div>
+                <span data-ta-logo="horizontal" data-glitch="off"></span>
+              </div>
+            </div>
+            <h3 data-i18n="use.u1t">Sticker QR para la vidriera</h3>
+            <p data-i18n="use.u1d">Pegalo al lado del flash o en el mostrador.</p>
+          </article>
+          <article class="use">
+            <div class="use-art use-chat" aria-hidden="true">
+              <div class="bubble b-in" data-i18n="use.chat1">¿Me pasás el link del tatuaje?</div>
+              <div class="bubble b-out"><span class="tar-label">tattoo.ar</span><b data-i18n="use.chat2">Tu tatuaje en AR</b><span data-i18n="use.chat3">Tocá para verlo moverse</span></div>
+              <div class="bubble b-in" data-i18n="use.chat4">Se mueve en serio. Ya lo subo.</div>
+            </div>
+            <h3 data-i18n="use.u2t">Link para tu cliente</h3>
+            <p data-i18n="use.u2d">Lo recibe por mensaje y lo muestra donde quiera.</p>
+          </article>
+          <article class="use">
+            <div class="use-art use-post" aria-hidden="true">
+              <div class="post">
+                <span class="tar-label">AR_ <span data-i18n="use.postK">Nuevo efecto</span></span>
+                <p><span data-i18n="use.post1">Tu tatuaje</span><br><span class="hl" data-i18n="use.post2">ya se mueve.</span></p>
+                <span data-ta-logo="stacked" class="tal-dark"></span>
+              </div>
+            </div>
+            <h3 data-i18n="use.u3t">Contenido para redes</h3>
+            <p data-i18n="use.u3d">Una frase corta, el logo y el tatuaje en movimiento.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRECIOS -->
+    <section class="sec pricing" id="precios">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="sec-kicker tar-label"><b>08</b> <span data-i18n="price.kicker">Planes</span></p>
+          <h2 class="sec-title" data-i18n="price.title">Empezá gratis.</h2>
+          <p class="sec-lead" data-i18n="price.lead">Subí de plan cuando necesites más diseños, tu propio video y estadísticas.</p>
+        </header>
+        <div class="plans" id="plans">
+          <article class="plan">
+            <h3 class="tar-label">Free</h3>
+            <p class="plan-price"><b>$0</b><span data-i18n="price.per">/ mes</span></p>
+            <p class="plan-desc" data-i18n="price.p1d">Para probar con tu primer tatuaje.</p>
+            <ul>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p1a">1 diseño activo</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p1b">Escáner y QR</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p1c">Efectos desde la imagen</span></li>
+            </ul>
+            <a class="btn btn-ghost" href="login.html" data-wipe data-i18n="price.p1cta">Empezar gratis</a>
+          </article>
+          <article class="plan plan-pop">
+            <span class="plan-flag tar-label" data-i18n="price.pop">Más elegido</span>
+            <h3 class="tar-label">Pro</h3>
+            <p class="plan-price"><b>$19</b><span data-i18n="price.per">/ mes</span></p>
+            <p class="plan-desc" data-i18n="price.p2d">Para tatuadores que quieren diferenciarse.</p>
+            <ul>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p2a">Diseños ilimitados</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p2b">Video propio y efectos</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p2c">Estadísticas de escaneos</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p2d2">Sin marca de agua</span></li>
+            </ul>
+            <a class="btn btn-accent" href="login.html" data-wipe data-i18n="price.p2cta">Elegir Pro</a>
+          </article>
+          <article class="plan">
+            <h3 class="tar-label">Studio</h3>
+            <p class="plan-price"><b>$49</b><span data-i18n="price.per">/ mes</span></p>
+            <p class="plan-desc" data-i18n="price.p3d">Para estudios con varios artistas.</p>
+            <ul>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p3a">Todo lo de Pro</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p3b">Varios artistas</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p3c">Dominio propio</span></li>
+              <li><svg class="ic"><use href="#i-check"/></svg><span data-i18n="price.p3d2">Soporte prioritario</span></li>
+            </ul>
+            <a class="btn btn-ghost" href="login.html" data-wipe data-i18n="price.p3cta">Elegir Studio</a>
+          </article>
+        </div>
+        <p class="plans-note tar-label" data-i18n="price.note">Validamos tu pago y activamos el plan · Cancelás cuando quieras</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="sec faq" id="faq">
+      <div class="wrap faq-grid">
+        <header class="sec-head">
+          <p class="sec-kicker tar-label"><b>09</b> <span data-i18n="faq.kicker">Preguntas</span></p>
+          <h2 class="sec-title" data-i18n="faq.title">Lo que nos preguntan.</h2>
+        </header>
+        <div class="faq-list">
+          <details class="qa"><summary><span data-i18n="faq.q1">¿Hay que instalar una app?</span><svg class="ic"><use href="#i-plus"/></svg></summary><div class="qa-a"><p data-i18n="faq.a1">No. Se abre en el navegador desde un link o un QR. Tu cliente da permiso de cámara una vez y listo.</p></div></details>
+          <details class="qa"><summary><span data-i18n="faq.q2">¿Funciona en iPhone y Android?</span><svg class="ic"><use href="#i-plus"/></svg></summary><div class="qa-a"><p data-i18n="faq.a2">Sí, en cualquier celular actual. Abrilo en Safari o Chrome, no dentro del navegador de Instagram u otra app.</p></div></details>
+          <details class="qa"><summary><span data-i18n="faq.q3">¿Cómo hago que un tatuaje cobre vida?</span><svg class="ic"><use href="#i-plus"/></svg></summary><div class="qa-a"><p data-i18n="faq.a3">Subís la imagen del diseño, elegís un efecto o tu video y publicás. Te queda un link y un QR para tu cliente.</p></div></details>
+          <details class="qa"><summary><span data-i18n="faq.q4">¿Qué animaciones puedo usar?</span><svg class="ic"><use href="#i-plus"/></svg></summary><div class="qa-a"><p data-i18n="faq.a4">Tu propio video, con el fondo recortado en vivo, o efectos que salen de la imagen: pulso de energía, destello, ondas y brasas.</p></div></details>
+          <details class="qa"><summary><span data-i18n="faq.q5">¿Se guarda lo que ve la cámara?</span><svg class="ic"><use href="#i-plus"/></svg></summary><div class="qa-a"><p data-i18n="faq.a5">No. La imagen de la cámara se procesa en el celular y no se sube a ningún lado. Solo contamos cuántas veces se escanea cada diseño.</p></div></details>
+          <details class="qa"><summary><span data-i18n="faq.q6">¿Sirve en tatuajes ya cicatrizados?</span><svg class="ic"><use href="#i-plus"/></svg></summary><div class="qa-a"><p data-i18n="faq.a6">Sí, mientras el tatuaje se parezca al diseño que subiste. Con buena luz y la piel estirada se reconoce mejor.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA + máquina 3D -->
+    <section class="sec cta" id="cta">
+      <div class="wrap cta-wrap">
+        <div class="cta-copy">
+          <p class="sec-kicker tar-label"><b>10</b> <span data-i18n="cta.kicker">Tu turno</span></p>
+          <h2 class="cta-title"><span data-i18n="cta.t1">Que tu tinta</span><br><span class="hl" data-i18n="cta.t2">cobre vida.</span></h2>
+          <p class="sec-lead" data-i18n="cta.lead">Subí tu primer diseño y en minutos tenés el QR para tu cliente.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-accent" href="login.html" data-wipe><span data-i18n="cta.btn">Empezar gratis</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+            <a class="link-arrow" href="scan.html" data-wipe><span data-i18n="cta.alt">o probá el escáner</span><svg class="ic"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+        <div class="ink-wrap">
+          <div id="ink-stage" aria-label="Máquina de tatuar 3D interactiva">
+            <canvas class="ink-canvas"></canvas>
+            <canvas class="gl-canvas"></canvas>
+            <span class="ink-tag tar-label"><i></i>Wireless pen · 3D</span>
+            <span class="ink-phase tar-label" aria-live="polite"></span>
+            <button type="button" class="ink-ui ink-sound tar-label" aria-pressed="true" aria-label="Activar o silenciar el sonido de la máquina">
+              <svg class="ic" aria-hidden="true"><use href="#i-sound"/></svg><span class="lbl">Sonido</span>
+            </button>
+            <div class="ink-ui ink-swatches" role="group" aria-label="Color de tinta">
+              <button type="button" class="ink-sw" data-ink="green" aria-pressed="true" aria-label="Tinta lima" style="--c:var(--tar-lime)"></button>
+              <button type="button" class="ink-sw" data-ink="pink" aria-pressed="false" aria-label="Tinta magenta" style="--c:var(--tar-magenta)"></button>
+              <button type="button" class="ink-sw" data-ink="blue" aria-pressed="false" aria-label="Tinta cian" style="--c:var(--tar-cyan)"></button>
+              <button type="button" class="ink-sw" data-ink="orange" aria-pressed="false" aria-label="Tinta ámbar" style="--c:var(--tar-amber)"></button>
+            </div>
+            <span class="ink-hint tar-label"><span class="only-fine" data-i18n="cta.hint">Pasá el cursor y tatuá · mantené el clic para presionar</span><span class="only-touch" data-i18n="cta.hintTouch">Tocá y deslizá para tatuar</span></span>
+            <i class="tar-vf"></i>
+          </div>
+          <p class="ink-caption tar-label" data-i18n="cta.hintTouch">Tocá y deslizá para tatuar</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot-grid">
+      <div class="foot-brand">
+        <span data-ta-logo="horizontal" data-label="TattooAR"></span>
+        <p data-i18n="foot.tag">Tatuajes que cobran vida. Sin instalar nada.</p>
+      </div>
+      <nav aria-label="Producto"><h4 class="tar-label" data-i18n="foot.product">Producto</h4>
+        <a href="login.html" data-wipe data-i18n="foot.studio">Estudio</a><a href="scan.html" data-wipe data-i18n="foot.scanner">Escáner</a><a href="#precios" data-i18n="nav.pricing">Precios</a></nav>
+      <nav aria-label="Ayuda"><h4 class="tar-label" data-i18n="foot.help">Ayuda</h4>
+        <a href="#como" data-i18n="nav.how">Cómo funciona</a><a href="#demo" data-i18n="nav.demo">Demo</a><a href="#faq" data-i18n="nav.faq">Preguntas</a></nav>
+      <nav aria-label="Legal"><h4 class="tar-label" data-i18n="foot.legal">Legal</h4>
+        <a href="privacidad.html" data-i18n="foot.privacy">Privacidad</a><a href="privacidad.html#terminos" data-i18n="foot.terms">Términos</a></nav>
+    </div>
+    <div class="wrap foot-bottom tar-label">
+      <span>© 2026 TattooAR</span>
+      <span data-i18n="foot.credits">Fotos de la galería: Unsplash</span>
+      <span class="foot-live tar-live" data-i18n="live">En vivo</span>
+    </div>
+    <div class="foot-ghost" aria-hidden="true"><span data-ta-logo="word" data-glitch="off"></span></div>
+  </footer>
+
+  <!-- Transición lateral entre páginas -->
+  <div id="page-wipe" aria-hidden="true"><span class="tal-light" data-ta-logo="horizontal" data-glitch="off"></span></div>
+
+  <script src="js/landing-i18n.js?v=4" defer></script>
+  <script src="js/landing.js?v=4" defer></script>
+  <script src="js/tattoo-machine.js?v=8" defer></script>
+</body>
+</html>
